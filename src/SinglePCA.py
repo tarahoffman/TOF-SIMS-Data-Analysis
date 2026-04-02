@@ -4,7 +4,16 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 
 # Data Configuration - folder path with .txt files of fragment 3D depth profiles
+# See the provided folder for an example of what this should look like.
 folder_path = 'data/Baseline HC Anode'
+assert os.path.exists(folder_path), (
+    f"Directory does not exist!\n"
+    f"You asked for: {folder_path}\n"
+    f"Your current working directory is: {os.getcwd()}\n"
+    f"Therefore the absolute path is: {os.path.abspath(folder_path)},"
+    f"but this does not exist!\n"
+    f"If your dataset exists, you probably need to change your working directory, or change the dataset path."
+)
 
 # Spatial Binning (Averaging voxels to reduce noise and computation time)
 bin_x, bin_y, bin_z = 16, 16, 10
@@ -12,6 +21,9 @@ bin_x, bin_y, bin_z = 16, 16, 10
 # Data loading and volume reconstruction
 image_data = {}
 
+# Iterate through all .txt files in teh specified folder, reconsutrct each fragment's
+# 3D intensity volume, and cache it as a binary (.npy) file for faster future loading.
+# Fragment labels are extracted from filenames and used as keys for storing volumes.
 for filename in os.listdir(folder_path):
     # Only process text files
     if filename.endswith(".txt"):
@@ -49,14 +61,21 @@ intensity_names = list(image_data.keys())
 intensity_volumes = np.stack(list(image_data.values()))
 
 # Spatial Binning/Down sampling for multivariate stability
+# The 3D volumes are reshaped into blocks of size (bin_x, bin_y, bin_z),
+# and the mean intensity is taken within each block
 n_frag, x, y, z = intensity_volumes.shape
 binned_data = intensity_volumes.reshape(
-    n_frag, x // bin_x, bin_x, y // bin_y, bin_y, z // bin_z, bin_z
-).mean(axis=(2, 4, 6))
+    n_frag,
+    x // bin_x, bin_x, # splits the x dimension into "x / bin_x" bins of size "bin_x"
+    y // bin_y, bin_y,
+    z // bin_z, bin_z
+)
+binned_data = binned_data.mean(axis=(2, 4, 6)) # note 2 corresponds to bin_x, 4 corresponds to bin_y, etc.
 
+# Extract the new spatial dimensions (X, Y, Z), excluding fragment axis
 new_x, new_y, new_z = binned_data.shape[1:]
 
-# Flatten spatial dimensions into a feature matrix
+# Flatten spatial dimensions into a feature matrix because PCA expects 2d data
 # Rows = voxels (samples), Columns = chemical fragments (features)
 flattened_data = np.reshape(binned_data, (n_frag, -1)).T
 
@@ -64,7 +83,7 @@ flattened_data = np.reshape(binned_data, (n_frag, -1)).T
 pca = PCA(n_components=2, random_state=42)
 pc_scores = pca.fit_transform(flattened_data)
 
-# Extract Loadings
+# Extract Loadings and print summary
 loadings = pca.components_
 
 print("\n" + "=" * 60)
