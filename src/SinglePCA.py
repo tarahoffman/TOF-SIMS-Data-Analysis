@@ -25,7 +25,7 @@ assert os.path.exists(folder_path), (
 bin_x, bin_y, bin_z = 16, 16, 10
 
 
-############## Load fragment maps ##############
+############## Load Fragment Maps ##############
 
 
 # Data loading and volume reconstruction

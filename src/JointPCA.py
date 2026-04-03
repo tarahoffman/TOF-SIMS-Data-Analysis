@@ -118,7 +118,7 @@ for sample_values in all_samples_data:
 centroids = np.array(centroids)  # shape: (n_samples, 2)
 
 
-# ---- Print PCA stats ----
+# Print PCA stats
 print("="*60)
 print("PCA SUMMARY")
 print("="*60)

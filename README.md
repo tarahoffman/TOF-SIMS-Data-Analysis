@@ -1,7 +1,21 @@
 # TOF-SIMS-Data-Analysis
+<p align="center">
+  <img src="images/SummaryFigure.png" width="400">
+</p>
 
-TODO Summary - write a summary of the project 
+This work applied multivariate analysis to 3D TOF-SIMS depth profiles to 
+visualize the electrode-electrolyte interphase composition and structure.
+Below are installation instructions and examples of how to use the codebase. 
 
+**Link to Manuscript:** Update once paper is published!
+
+**To Cite:** Ingebrand, T. and Manthiram, A. Unveiling Hidden Patterns in 
+Electrode-electrolyte Interphase Chemistry and Architecture Through
+TOF-SIMS and Machine Learning. *Manuscript in Preparation.*
+
+**Update Citation Once Manuscript is Published!**
+
+---
 ## Installation instructions
 If you are unfamiliar with coding, you may want to start with PyCharm: https://www.jetbrains.com/pycharm/
 
@@ -32,9 +46,14 @@ pip install numpy matplotlib scikit-learn umap-learn
 ```
 
 # Examples 
-Say something general about how these are the examples from the paper
+-Include instructions on where you can find my data and how to download it 
+to the correct spot
 
--include run instructions for each one 
+### Example Data Setup
+1. Download data from _________
+2. Create a folder named `data` in the root of the repository (`TOF-SIMS-Data-Analysis`).
+   1. `data/` is added to `.gitignore` so that GIT does not attempt to track or upload the files, which are too large for Github.
+3. Inside the `data` folder, ensure that each sample has a folder that contains its depth profiles.
 
 ---
 
@@ -68,7 +87,9 @@ This script processes 3D TOF-SIMS fragment depth profiles and applies PCA to
 reveal dominant spatial and chemical patterns within an individual dataset.
 Individual PCA may be necessary if sample chemistries differ significantly, since 
 the relevant fragments may not be the same across samples. 
-![Alt text](images/IndividualPCABaselineAnode.png)
+<p align="center">
+  <img src="images/IndividualPCABaselineAnode.png" width="400">
+</p>
 
 ### Run instructions
 
@@ -102,7 +123,7 @@ python .\src\TSNEandUMAP.py
 Set analysis method (TSNE or UMAP) with `method`
 
 To analyze your own data, modify TSNEandUMAP.py.
-Set `folder_path` (line 12) to the directory containing 
+Set `folder_path` to the directory containing 
 your 3D TOF-SIMS depth profile `.txt` files.  
 
 ---
@@ -110,7 +131,7 @@ your 3D TOF-SIMS depth profile `.txt` files.
 ## Interphase Thickness PCA
 This analysis requires two scripts:
 1. FragmentThicknessMaps.py
-   1. This script takes the 3D depth profile of a fragment as input and outputs a fragment thickness map
+   1. This script takes the 3D depth profile of a fragment as input and outputs the fragment thickness map
 2. FragmentThicknessPCA.py
    1. This script takes fragment thickness maps of several fragments as input and outputs PCA summary
 
@@ -126,6 +147,19 @@ To analyze your data, set `folder_path` to the directory containing
 your 3D TOF-SIMS depth profile `.txt` files. Update `selected_label` with the 
 fragment you would like to analyze. 
 
----
-- Add citation at the end somehow
-- maybe also need to cite my own fiures once the paper is published? 
+
+### 2. Fragment Thickness PCA
+<p align="center">
+  <img src="images/FragmentThicknessPCA.png" width="400">
+</p>
+
+### Run instructions
+
+```commandline
+python .\src\FragmentThicknessPCA.py
+```
+The script prints the principal component loadings and explained variance to the terminal as it runs.
+
+To analyze your data, set `folder_path` to the directory containing 
+your fragment thickness `.txt` files.
+

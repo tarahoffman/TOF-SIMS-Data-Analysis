@@ -13,7 +13,7 @@ folder_path = 'data/Baseline HC Anode'
 
 # Fragment you wish to analyze and plot
 # Must EXACTLY match the fragment name in the file names
-selected_label = ["PO_2-"]
+selected_label = ["NaF_2-"]
 
 # Choose thickness mode:
 # "nm" converts scan number to physical thickness using scan rate
@@ -41,6 +41,7 @@ vmin, vmax = None, None
 # I chose bin size of 20 (pixels), if you choose too low of a bin size, the depth profile at each point is too noisy
 # If you go too high of a bin size, you lose x-y resolution in your resulting thickness map
 # The total depth profile and the binned depth profile at a given point will be plotted
+# bin size 20 creates a 237 x 237 pixel image
 xy_bin_size = 20
 
 
@@ -56,7 +57,6 @@ assert os.path.exists(folder_path), (
     f"but this does not exist!\n"
     f"If your dataset exists, you probably need to change your working directory, or change the dataset path."
 )
-
 
 # Make sure that "selected_label" exists in the folder
 # Get all available fragment labels from .txt files in folder
@@ -81,13 +81,13 @@ assert len(invalid_labels) == 0, (
     f"Please make sure your 'selected_label' match exactly (including capitalization and symbols)."
 )
 
-
 #check that thickness mode selection is valid
 if thickness_mode not in ["nm", "time"]:
     raise ValueError(
         f"Invalid thickness_mode '{thickness_mode}'!\n"
         f"Please choose either 'nm' (absolute thickness) or 'time' (relative thickness)."
     )
+
 
 # Dictionary to store 3D intensity data for selected fragment
 image_data = {}
@@ -241,7 +241,7 @@ for label, data in image_data.items():
         vmax_plot = vmax
 
 
-    ############## Save Output ##############
+    ############## Save Output to .txt file ##############
 
 
     # Define the output file path with "_nmvalues" appended to the filename
