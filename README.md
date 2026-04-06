@@ -16,7 +16,7 @@ TOF-SIMS and Machine Learning. *Manuscript in Preparation.*
 **Update Citation Once Manuscript is Published!**
 
 ---
-## Installation instructions
+## Installation Instructions
 If you are unfamiliar with coding, you may want to start with PyCharm: https://www.jetbrains.com/pycharm/
 
 Below are command line instructions to help get you started. These commands
@@ -40,14 +40,15 @@ python -m venv venv
 ```commandline
 venv\Scripts\Activate.ps1
 ```
-5. Install packages (list ALL packages here)
+5. Install packages
 ```commandline
 pip install numpy matplotlib scikit-learn umap-learn
 ```
 
+---
+
 # Examples 
--Include instructions on where you can find my data and how to download it 
-to the correct spot
+
 
 ### Example Data Setup
 1. Download data from _________
@@ -58,11 +59,10 @@ to the correct spot
 ---
 
 ## Joint Principal Component Analysis (PCA)
-This script processes 3D TOF-SIMS fragment depth profiles and applies PCA across
-multiple samples jointly to identify overarching spatial and chemical patterns
-across multiple samples. 
+This script processes 3D TOF-SIMS depth profiles and applies PCA across
+multiple samples jointly to identify overarching spatial and chemical patterns. 
 Centroid locations and confidence ellipse geometries provide a summary
-of average interphase composition and chemical heterogeneity. 
+of average interphase composition and degree of chemical heterogeneity. 
 ![Alt text](images/JointPCA.png)
 
 ### Run instructions
@@ -104,14 +104,16 @@ To analyze your own data, modify SinglePCA.py.
 Set `folder_path` to the directory containing 
 your 3D TOF-SIMS depth profile `.txt` files.  
 
-When preparing input data, consider the depth range included in the 3D profiles.
+When preparing input data, consider the depth range of the 3D datasets.
 When qualitatively comparing multiple samples with separate PCA, ensure that each 
 dataset spans an equivalent z-depth to maintain consistency. 
 
 ---
 ## UMAP and t-SNE
-This script processes 3D TOF-SIMS fragment depth profiles and applies PCA to 
-reveal nonlinear trends such as local clustering and finer chemical heterogeneities.
+This script processes 3D TOF-SIMS fragment depth profiles and applies 
+uniform manifold approximation and projection (UMAP) and 
+t-distributed stochastic neighbor embedding (t-SNE)
+to reveal nonlinear trends such as local clustering and finer chemical heterogeneities.
 
 ![Alt text](images/TSNEandUMAP.png)
 
@@ -133,7 +135,7 @@ This analysis requires two scripts:
 1. FragmentThicknessMaps.py
    1. This script takes the 3D depth profile of a fragment as input and outputs the fragment thickness map
 2. FragmentThicknessPCA.py
-   1. This script takes fragment thickness maps of several fragments as input and outputs PCA summary
+   1. This script takes fragment thickness maps of several fragments as input and outputs the PCA summary
 
 
 ### 1. Fragment Thickness Maps
